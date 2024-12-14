@@ -1,6 +1,6 @@
-export class SignUpDto{
-    name : string;
-    email:string;
-    password :string;
-    confirmPassword :string;
+export class SignUpDto {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 }
