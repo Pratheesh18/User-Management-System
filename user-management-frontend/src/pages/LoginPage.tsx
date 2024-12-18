@@ -13,7 +13,7 @@ const LoginPage = () => {
             const res = await api.signIn(data);
             console.log("res",res);
             alert("Login successful");
-            navigate('dashboard');
+            navigate('/home');
         }catch(error){
             console.error("Login error",error);
         };
