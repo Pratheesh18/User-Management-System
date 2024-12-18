@@ -15,7 +15,7 @@ interface SignUpFormProps{
     onSubmit : SubmitHandler<SignUpFormInputs>;
 }
 
-const SignUpForm = ({onSubmit}) => {
+const SignUpForm : React.FC<SignUpFormProps> = ({onSubmit}) => {
     const {register,handleSubmit,formState:{errors}} = useForm<SignUpFormInputs>({resolver:yupResolver(signUpSchema)});
 
     return(
@@ -28,7 +28,7 @@ const SignUpForm = ({onSubmit}) => {
                 <TextField label="Email" margin="normal" {...register('email')} error={!!errors.email} helperText={errors.email?.message} fullWidth />
                 <TextField label="Password" type="password"  margin="normal" {...register('password')} error={!!errors.password} helperText={errors.password?.message} fullWidth />
                 <TextField label="Confirm Password" type="password" margin="normal" {...register('confirmPassword')} error={!!errors.confirmPassword} helperText={errors.confirmPassword?.message} fullWidth />
-                <Button type="submit" variant="contained" fullWidth>
+                <Button type="submit" variant="contained" fullWidth sx={{mt:5}}>
                     Sign Up
                 </Button>
             </form>
