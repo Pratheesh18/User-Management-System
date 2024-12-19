@@ -12,11 +12,17 @@ export const customerApi = {
         return response.data;
     },
     updateCustomer : async (customerId:string,updatedData:{name?:string;email?:string}) => {
-        const response = await axios.patch(`${BASE_URL}/${customerId}`,updatedData);
+        const response = await axios.put(`${BASE_URL}/${customerId}`,updatedData);
         return response.data;
     },
     deleteCustomer:async(customerId:string) => {
         const response = await axios.delete(`${BASE_URL}/${customerId}`);
         return response.data;
+    },
+    searchCustomer:async (name?:string,email?:string) => {
+        const response = await axios.get(`${BASE_URL}/search`,{
+            params:{name,email},
+        });
+        return response.data
     }
 }

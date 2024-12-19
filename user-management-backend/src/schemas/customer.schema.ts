@@ -1,8 +1,11 @@
+/* eslint-disable prettier/prettier */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+export type CustomerDocument  = Customer & Document;
+
 @Schema()
-export class Customer extends Document {
+export class Customer {
   @Prop({ required: true })
   name: string;
 

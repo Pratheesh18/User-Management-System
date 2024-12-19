@@ -48,4 +48,20 @@ export class CustomerService {
       throw new NotFoundException('Customer not found');
     }
   }
+
+  async searchCustomers(searchParams:{name?:string;email?:string}):Promise<Customer[]> {
+    const {name,email} = searchParams;
+    const filter : any ={};
+
+    if(name){
+      filter.name = {$regex:name,$options:'i'};
+    }
+
+    if(email){
+      filter.email = {$regex:email,$options:'i'};
+    }
+
+    return this.customerModel.find(filter).exec();
+  }
+
 }

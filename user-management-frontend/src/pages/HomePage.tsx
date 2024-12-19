@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react';
-import { customerApi } from '../api/userApi';
+import { customerApi } from '../api/customerApi';
 import Form from '../components/Form';
-import { Box,Button,Typography,Dialog,DialogContent,Card,CardContent,IconButton, Icon, colors, DialogActions } from '@mui/material';
+import { Box,Button,Typography,Dialog,DialogContent,Card,CardContent,IconButton, Icon, colors, DialogActions, TextField } from '@mui/material';
 import {Edit,Delete,Add} from '@mui/icons-material';
 
 
@@ -16,6 +16,9 @@ const HomePage = () => {
     const [users,setUsers] = useState<User[]>([]);
     const [selectUser,setSelectUser] = useState<User |null>(null);
     const [formOpen,setFormOpen] = useState<boolean>(false);
+    const [keyword,setKeyword] = useState<string>('');
+    const [filterUsers,setFilterUsers] = useState<User[]>([]);
+
 
     useEffect(() => {
         getUsers();
@@ -24,6 +27,7 @@ const HomePage = () => {
     const getUsers = async () => {
         const fetchUsers = await customerApi.getAllCustomers();
         setUsers(fetchUsers);
+        setFilterUsers(fetchUsers);
     };
 
     const isFormOpen = (user?:User) => {
@@ -49,7 +53,21 @@ const HomePage = () => {
     const handleDeleteuser = async (customerId:string) => {
         await customerApi.deleteCustomer(customerId);
         getUsers();
+    };
+
+
+    const handleSearch = async (value:string) => {
+        setKeyword(value);
+        if(value.trim() === ''){
+            setFilterUsers(users);
+        }else{
+            const searchResults = await customerApi.searchCustomer(value);
+            setFilterUsers(searchResults);
+        };
+
     }
+
+    console.log("Fteched",filterUsers);
 
     return(
         <>
@@ -57,8 +75,9 @@ const HomePage = () => {
                 <Typography variant='h4' mb={3}>
                     User Management
                 </Typography>
+                <TextField label="Search by name or email" variant='outlined' value={keyword} onChange={(e) => handleSearch(e.target.value)} fullWidth />
                 <Button variant='contained' startIcon={<Add/>} onClick={() => isFormOpen()} sx={{mb:2}}> Add User </Button>
-                {users.map((user) => (
+                {filterUsers.map((user) => (
                     <Card key={user._id} sx={{mb:2}}>
                         <CardContent>
                             <Typography variant='h6'> {user.name} </Typography>

@@ -6,6 +6,7 @@ import {
   Delete,
   Body,
   Param,
+  Query,
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 
@@ -31,5 +32,15 @@ export class CustomerController {
   @Delete('/:id')
   async deleteCustomer(@Param('id') id: string) {
     return this.customerService.deleteCustomer(id);
+  }
+
+  @Get('search')
+  async searchCustomers(
+    @Query('name') name?: string,
+    @Query('email') email?: string,
+  ) {
+    console.log('Hit search endpoint');
+    console.log('Search Parameters:', { name, email });
+    return this.customerService.searchCustomers({ name, email });
   }
 }
